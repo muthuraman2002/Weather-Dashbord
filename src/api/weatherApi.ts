@@ -75,7 +75,7 @@ export const getWeatherByCoords = async (lat: number, lon: number): Promise<Weat
 // Get forecast by geolocation
 export const getForecastByCoords = async (lat: number, lon: number): Promise<ForecastData> => {
   try {
-    const response = await weatherApi.get<ForecastData>('/forecast', {
+    const response = await weatherApi.get<ForecastData>('', {
       params: { latitude:lat, longitude:lon },
     });
     return response.data;

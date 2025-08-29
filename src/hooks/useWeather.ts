@@ -19,6 +19,7 @@ export const useWeather = () => {
     if (navigator.geolocation && !currentWeather) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+         
           dispatch(
             fetchWeatherByLocation({
               lat: position.coords.latitude,
