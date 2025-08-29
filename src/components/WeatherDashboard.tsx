@@ -21,8 +21,8 @@ const WeatherDashboard: React.FC = () => {
     getWeatherByCity,
     getWeatherByCurrentLocation,
   } = useWeather();
-  
-  const [showApiKeyInfo, setShowApiKeyInfo] = useState(true);
+  console.log(forecast)
+  const [showApiKeyInfo, setShowApiKeyInfo] = useState(false);
 
   const handleDismissError = () => {
     dispatch(clearError());

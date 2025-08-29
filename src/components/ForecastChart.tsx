@@ -11,8 +11,6 @@ import {
   Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { ForecastData } from '../types/weather';
-import { getTemperatureChartData } from '../utils/weatherUtils';
 import { LineChart } from 'lucide-react';
 
 ChartJS.register(
@@ -27,13 +25,41 @@ ChartJS.register(
 );
 
 interface ForecastChartProps {
-  data: ForecastData;
+  data: {
+    time: string[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    precipitation_sum: number[];
+    weathercode: number[];
+  };
 }
 
 const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
-  if (!data || !data.list || data.list.length === 0) return null;
+  if (!data || !data.time || data.time.length === 0) return null;
+  console.log(data);
 
-  const chartData = getTemperatureChartData(data.list);
+  // Prepare chart data for Open-Meteo format
+  const chartData = {
+    labels: data.time,
+    datasets: [
+      {
+        label: 'Max Temp (°C)',
+        data: data.temperature_2m_max,
+        borderColor: '#f59e42',
+        backgroundColor: 'rgba(245, 158, 66, 0.2)',
+        fill: true,
+        tension: 0.4,
+      },
+      {
+        label: 'Min Temp (°C)',
+        data: data.temperature_2m_min,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
 
   const options = {
     responsive: true,
@@ -60,7 +86,7 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
         usePointStyle: true,
         callbacks: {
           label: function(context: any) {
-            return `Temperature: ${context.parsed.y}°C`;
+            return `${context.dataset.label}: ${context.parsed.y}°C`;
           }
         }
       },
@@ -87,7 +113,7 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: 'Date',
           font: {
             size: 12,
             weight: 'bold',
@@ -118,7 +144,7 @@ const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
     <div className="bg-white p-6 rounded-xl shadow-lg weather-card">
       <div className="flex items-center mb-4">
         <LineChart size={20} className="mr-2 text-blue-600" />
-        <h3 className="text-xl font-semibold">24-Hour Temperature Forecast</h3>
+        <h3 className="text-xl font-semibold">7-Day Temperature Forecast</h3>
       </div>
       <div className="h-80">
         <Line options={options} data={chartData} />
