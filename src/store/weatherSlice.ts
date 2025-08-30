@@ -41,7 +41,7 @@ export const fetchWeatherByLocation = createAsyncThunk(
       // console.log('Fetching weather for coords:', lat, lon);
       const weatherData = await getWeatherByCoords(lat, lon);
       const forecastData = await getForecastByCoords(lat, lon);
-      console.log( weatherData, forecastData);
+      // console.log( weatherData, forecastData);
       return { weather: weatherData, forecast: forecastData };
     } catch (error) {
       return rejectWithValue('Failed to fetch weather data for your location.');

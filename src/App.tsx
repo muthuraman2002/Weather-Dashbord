@@ -41,7 +41,7 @@ function App() {
                 <p className="text-gray-400 text-sm mt-1">Real-time weather data at your fingertips</p>
               </div>
               <div className="text-center md:text-right">
-                <p className="text-gray-400 text-sm">Weather data provided by OpenWeather API</p>
+                <p className="text-gray-400 text-sm">Weather data provided by Open-Meteo API</p>
                 <p className="text-gray-500 text-xs mt-1">© {new Date().getFullYear()} Weather Dashboard. All rights reserved.</p>
               </div>
             </div>
