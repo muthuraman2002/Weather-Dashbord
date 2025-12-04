@@ -38,10 +38,8 @@ export const fetchWeatherByLocation = createAsyncThunk(
   'weather/fetchByLocation',
   async ({ lat, lon }: { lat: number; lon: number }, { rejectWithValue }) => {
     try {
-      // console.log('Fetching weather for coords:', lat, lon);
       const weatherData = await getWeatherByCoords(lat, lon);
       const forecastData = await getForecastByCoords(lat, lon);
-      // console.log( weatherData, forecastData);
       return { weather: weatherData, forecast: forecastData };
     } catch (error) {
       return rejectWithValue('Failed to fetch weather data for your location.');
@@ -72,8 +70,6 @@ const weatherSlice = createSlice({
         state.currentWeather = action.payload.weather;
         state.forecast = action.payload.forecast;
         state.selectedCity = action.payload.weather.name;
-        
-        // Add to search history if not already present
         if (!state.searchHistory.includes(action.payload.weather.name)) {
           state.searchHistory = [action.payload.weather.name, ...state.searchHistory].slice(0, 5);
         }
@@ -82,8 +78,6 @@ const weatherSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
-      // Fetch by location
       .addCase(fetchWeatherByLocation.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -92,9 +86,7 @@ const weatherSlice = createSlice({
         state.loading = false;
         state.currentWeather = action.payload.weather;
         state.forecast = action.payload.forecast;
-        state.selectedCity = action.payload.weather.name;
-        
-        // Add to search history if not already present
+        state.selectedCity = action.payload.weather.name;        
         if (!state.searchHistory.includes(action.payload.weather.name)) {
           state.searchHistory = [action.payload.weather.name, ...state.searchHistory].slice(0, 5);
         }
