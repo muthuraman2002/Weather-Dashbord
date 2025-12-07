@@ -3,43 +3,44 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - master          # Only triggers on push to master
+      - master          # Trigger only when pushing to master
   pull_request:
     branches:
-      - master          # Triggers preview on PRs targeting master
+      - master          # Preview deployments on PR
 
 jobs:
   deploy:
-    environment: Production 
+    environment: Production        # Required because your secrets are stored in “Production”
     runs-on: ubuntu-latest
     name: Build & Deploy to Vercel
 
     steps:
+      # Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Setup Node.js (with caching)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'    # change to 'pnpm' or 'yarn' if you use those
+          cache: 'npm'    
 
+      # Install dependencies (clean install)
       - name: Install dependencies
         run: npm ci
 
+      # Build the Vite application
       - name: Build Vite app
         run: npm run build
         env:
-          # Add your Vite env vars here if needed
           VITE_ENV: production
 
+      # Deploy to Vercel
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'                     # Remove or make conditional for preview on PRs
-          # Remove '--prod' on PRs → preview deployment
-          # Keep '--prod' on master push → production deployment
-        
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}        # Correct secret
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}      # Correct secret
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}  # Correct secret
+          vercel-args: '--prod'                            # Required for production deploy
