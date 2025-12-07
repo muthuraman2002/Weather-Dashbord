@@ -30,7 +30,7 @@ function App() {
         <main className="container mx-auto py-8 px-4">
           <WeatherDashboard />
         </main>
-        <footer className="bg-gray-800 text-white p-6 mt-auto">
+        <footer className="bg-gray-800 text-white p-6 absolute w-full bottom-0">
           <div className="container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="mb-4 md:mb-0">
