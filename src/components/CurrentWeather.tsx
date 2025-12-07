@@ -40,7 +40,7 @@ const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
   if (!data || !data.current_weather) return null;
   const { temperature, windspeed, winddirection, time, weathercode, is_day } = data.current_weather;
 
-  // Simple gradient based on temperature
+  // Simple gradient based on temperature.
   const getBgGradient = (temp: number) => {
     if (temp > 30) return 'from-orange-500 to-red-600';
     if (temp > 20) return 'from-yellow-400 to-orange-500';
